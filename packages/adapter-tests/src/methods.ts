@@ -59,6 +59,15 @@ export default (test: AdapterMethodsTest, app: any, _errors: any, serviceName: s
         }
       })
 
+      test('.get + NotFound (integer)', async () => {
+        try {
+          await service.get(123456789)
+          throw new Error('Should never get here')
+        } catch (error: any) {
+          assert.strictEqual(error.name, 'NotFound', 'Error is a NotFound Feathers error')
+        }
+      })
+
       test('.get + id + query id', async () => {
         const alice = await service.create({
           name: 'Alice',
@@ -112,6 +121,24 @@ export default (test: AdapterMethodsTest, app: any, _errors: any, serviceName: s
           throw new Error('Should never get here')
         } catch (error: any) {
           assert.strictEqual(error.name, 'NotFound', 'Got a NotFound Feathers error')
+        }
+      })
+
+      test('.remove + NotFound', async () => {
+        try {
+          await service.remove('568225fbfe21222432e836ff')
+          throw new Error('Should never get here')
+        } catch (error: any) {
+          assert.strictEqual(error.name, 'NotFound', 'Error is a NotFound Feathers error')
+        }
+      })
+
+      test('.remove + NotFound (integer)', async () => {
+        try {
+          await service.remove(123456789)
+          throw new Error('Should never get here')
+        } catch (error: any) {
+          assert.strictEqual(error.name, 'NotFound', 'Error is a NotFound Feathers error')
         }
       })
 
@@ -270,6 +297,17 @@ export default (test: AdapterMethodsTest, app: any, _errors: any, serviceName: s
       test('.update + NotFound', async () => {
         try {
           await service.update('568225fbfe21222432e836ff', {
+            name: 'NotFound'
+          })
+          throw new Error('Should never get here')
+        } catch (error: any) {
+          assert.strictEqual(error.name, 'NotFound', 'Error is a NotFound Feathers error')
+        }
+      })
+
+      test('.update + NotFound (integer)', async () => {
+        try {
+          await service.update(123456789, {
             name: 'NotFound'
           })
           throw new Error('Should never get here')
@@ -533,6 +571,17 @@ export default (test: AdapterMethodsTest, app: any, _errors: any, serviceName: s
       test('.patch + NotFound', async () => {
         try {
           await service.patch('568225fbfe21222432e836ff', {
+            name: 'PatchDoug'
+          })
+          throw new Error('Should never get here')
+        } catch (error: any) {
+          assert.strictEqual(error.name, 'NotFound', 'Error is a NotFound Feathers error')
+        }
+      })
+
+      test('.patch + NotFound (integer)', async () => {
+        try {
+          await service.patch(123456789, {
             name: 'PatchDoug'
           })
           throw new Error('Should never get here')
